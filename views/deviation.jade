@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1='Deviation route'
+
+    h2='view all deviations'
+
+    code='GET: ' 
+    code='/api/deviation'
+
+    br
+    br
+
+    button#get-all-deviations GET Results
+
+    h2='view particular deviation'
+
+    br
+
+    code='GET: ' 
+    code='/api/deviation?coin='
+    code#code-coin=''
+
+    br
+    br
+
+    form( method="get")#getcoin
+      label="coin"
+      input(type="text", name="bitcoin", value="" , placeholder="bitcoin")#coin
+      button(type="submit")#get-deviation-coin GET Result
+
+    
+    br
+
+block scripts
+  script(src='/javascripts/link.js')
