@@ -85,9 +85,7 @@ const updateCoins = async () => {
     }
 }
 
-
-
-var check_stat_service = cron.schedule('* * * * *', () =>  {
+var check_stat_service = cron.schedule('* 2 * * *', () =>  {
 
     // updates every 2 hours
     updateCoins()
@@ -100,5 +98,5 @@ var check_stat_service = cron.schedule('* * * * *', () =>  {
   });
   
 
-module.exports = {check_stat_service}
+module.exports = {check_stat_service,updateCoins}
   
