@@ -9,9 +9,11 @@ const statsCheck = async(req,res) =>{
 
             const query = { name : coin };
     
-            const response = await coinModel.findOne(query).sort({"updatedAt" : -1})
+
+            const response = await coinModel.findOne(query)
+
     
-            if(response.length<1) return res.status(404).json({ message: `coin '${coin}' not found ` }) 
+            if(!response) return res.status(404).json({ message: `coin '${coin}' not found ` }) 
     
             return res.status(200).json(response)
         }
