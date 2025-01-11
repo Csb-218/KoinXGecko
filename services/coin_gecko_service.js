@@ -18,18 +18,17 @@ const updateCoins = async () => {
             let bitcoin_market_cap = bitcoinData.market_data.market_cap.usd
             let bitcoin_market_cap_change = bitcoinData.market_data.market_cap_change_percentage_24h
 
-            const filter = { name : 'bitcoin' };
-            const bitcoin_doc = {
+
+            const bitcoin = new coin({
                 name:"bitcoin",
                 price:bitcoin_current_price,
                 market_cap:bitcoin_market_cap,
                 market_cap_change_percentage_24h:bitcoin_market_cap_change
-            }
-            const options = {upsert:true,new:true}
+            })
 
             // validate and save
-            if(coin.validate(bitcoin_doc)){
-                coin.findOneAndUpdate(filter, bitcoin_doc, options)
+            if(coin.validate(bitcoin)){
+                bitcoin.save()
                 console.log("updated bitcoin")
             } 
             
@@ -42,18 +41,18 @@ const updateCoins = async () => {
             let ethereum_market_cap = ethereumData.market_data.market_cap.usd
             let ethereum_market_cap_change = ethereumData.market_data.market_cap_change_percentage_24h
 
-            const filter = { name : 'ethereum' };
-            const ethereum_doc = {
+
+            const ethereum = new coin({
                 name:"ethereum",
                 price:ethereum_current_price,
                 market_cap:ethereum_market_cap,
                 market_cap_change_percentage_24h:ethereum_market_cap_change
-            }
-            const options = {upsert:true,new:true}
+            })
+
            
             // validate and save
-            if(coin.validate(ethereum_doc)){
-                coin.findOneAndUpdate(filter, ethereum_doc, options)
+            if(coin.validate(ethereum)){
+                ethereum.save()
                 console.log("updated ethereum")
             } 
         }
@@ -65,19 +64,18 @@ const updateCoins = async () => {
             let matic_network_market_cap = matic_network_data.market_data.market_cap.usd
             let matic_network_market_cap_change = matic_network_data.market_data.market_cap_change_percentage_24h
 
-            const filter = { name : 'matic_network' };
-            const matic_network_doc = {
-                name:"matic_network",
+
+            const matic_network = new coin({
+                name:"matic-network",
                 price:matic_network_current_price,
                 market_cap:matic_network_market_cap,
                 market_cap_change_percentage_24h:matic_network_market_cap_change
-            }
-            const options = {upsert:true,new:true}
+            })
            
             // validate and save
-            if(coin.validate(matic_network_doc)){
-                coin.findOneAndUpdate(filter, matic_network_doc, options)
-                console.log("updated matic_network")
+            if(coin.validate(matic_network)){
+                matic_network.save();
+                console.log("updated matic-network");
             } 
         }
 
@@ -87,9 +85,7 @@ const updateCoins = async () => {
     }
 }
 
-
-
-var check_stat_service = cron.schedule('* * * * *', () =>  {
+var check_stat_service = cron.schedule('* 2 * * *', () =>  {
 
     // updates every 2 hours
     updateCoins()
@@ -102,5 +98,5 @@ var check_stat_service = cron.schedule('* * * * *', () =>  {
   });
   
 
-module.exports = {check_stat_service}
+module.exports = {check_stat_service,updateCoins}
   
