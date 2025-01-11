@@ -6,15 +6,15 @@ var logger = require('morgan');
 var {check_stat_service} = require("./services/coin_gecko_service")
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var coinsRouter = require('./routes/coins')
+var statsView = require('./routes/stats')
+var deviationView = require('./routes/deviation')
+var coinsRouter = require('./routes/api')
 
 var app = express();
 
 // mongo connection
-const { connectMongoDb, mongoInstance } = require('./lib/database');
+const { connectMongoDb} = require('./lib/database');
 connectMongoDb();
-console.log(connectMongoDb, mongoInstance);
 
 // service
 check_stat_service.start()
@@ -30,8 +30,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/coins', coinsRouter);
+app.use('/stats', statsView);
+app.use('/deviation', deviationView);
+app.use('/api', coinsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
